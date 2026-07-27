@@ -1,0 +1,22 @@
+# config.txt - goes in the root of the FAT32 boot partition on the SD card,
+# alongside kernel8.img and the Pi 5's own firmware files (whatever came
+# pre-installed / from the Raspberry Pi Imager "Bootloader" option - do NOT
+# delete those, we only ADD this file and our kernel8.img next to them).
+
+# Load our image at 0x80000 and skip Linux-specific boot behavior:
+# - Without os_check=0, Pi 5 firmware demands a device-tree blob matching
+#   the BCM2712 and loads the kernel at 0x200000 (Linux convention).
+# - os_check=0 is the documented way to tell the firmware "this isn't Linux,
+#   don't require a DTB, load at the classic 0x80000 bare-metal address."
+os_check=0
+
+# Force 64-bit (AArch64) mode.
+arm_64bit=1
+
+# Explicit kernel filename (Pi 5 defaults to kernel_2712.img if present,
+# otherwise kernel8.img - we want the plain one for a hand-written image).
+kernel=kernel8.img
+
+# Keep the boot process from waiting on things we don't have/need yet.
+disable_splash=1
+boot_delay=0
